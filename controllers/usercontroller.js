@@ -11,7 +11,7 @@ router.post("/create", async (req, res) => {
     try {
         const newUser = await User.create({
             username,
-            password
+            password: bcrypt.hashSync(password, 13),
         });
 
         res.status(200).json({
@@ -36,13 +36,26 @@ router.post("/login", async (req, res) => {
         });
 
         if(loginUser) {
-            res.status(200).json({
-                user: loginUser,
-                message: "User successfully logged in!"
-            })
+
+            let passwordComparison = await bcrypt.compare(password, loginUser.password);
+
+            if(passwordComparison) {
+
+                let token = jwt.sign({id: loginUser.id}, process.env.JWT_SECRET, {expiresIn: 60 * 60 * 24});
+
+                res.status(200).json({
+                    user: loginUser,
+                    message: "User successfully logged in!",
+                    sessionToken: token
+                })
+            } else {
+                res.status(401).json({
+                    message: "Incorrect email or password"
+                });
+             } 
         } else {
             res.status(401).json({
-                message: "login failed"
+                message: "Incorrect email or password"
             })
         }
     } catch(error) {
@@ -50,6 +63,6 @@ router.post("/login", async (req, res) => {
             message: "Failed to log user in"
         })
     }
-})
+});
 
 module.exports = router;
