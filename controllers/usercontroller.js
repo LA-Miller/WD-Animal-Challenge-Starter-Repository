@@ -29,7 +29,26 @@ router.post("/login", async (req, res) => {
     let { username, password } = req.body.user;
 
     try {
-        
+        const loginUser = await User.findOne({
+            where: {
+                username: username,
+            },
+        });
+
+        if(loginUser) {
+            res.status(200).json({
+                user: loginUser,
+                message: "User successfully logged in!"
+            })
+        } else {
+            res.status(401).json({
+                message: "login failed"
+            })
+        }
+    } catch(error) {
+        res.status(500).json({
+            message: "Failed to log user in"
+        })
     }
 })
 
