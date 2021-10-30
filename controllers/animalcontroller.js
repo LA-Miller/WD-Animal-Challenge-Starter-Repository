@@ -48,4 +48,29 @@ router.delete("/delete/:id", async(req, res) => {
     }
 })
 
+// UPDATING ANIMAL ENTRIES
+router.put("/update/:id", async(req, res) => {
+    const { name, legNumber, predator } = req.body.animal;
+    const animalId = req.params.id;
+
+    const query = {
+        where: {
+            id: animalId
+        }
+    }
+
+    const updatedEntry = {
+        name: name,
+        legNumber: legNumber,
+        predator: predator
+    }
+
+    try {
+        const update = await Animal.update(updatedEntry, query);
+        res.status(200).json( {message: "Animal entry updated"} );
+    } catch(err) {
+        res.status(500).json({ error: err });
+    }
+})
+
 module.exports = router;
