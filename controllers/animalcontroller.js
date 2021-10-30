@@ -30,4 +30,22 @@ router.get("/", async(req, res) => {
     }
 });
 
+// DELETING ANIMAL ENTRIES
+router.delete("/delete/:id", async(req, res) => {
+    const animalId = req.params.id;
+
+    try {
+        const query = {
+            where: {
+                id: animalId
+            }
+        }
+
+        await Animal.destroy(query);
+        res.status(200).json({ message: "Animal entry deleted" })
+    } catch(err) {
+        res.status(500).json({ error: err });
+    }
+})
+
 module.exports = router;
