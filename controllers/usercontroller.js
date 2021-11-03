@@ -14,9 +14,12 @@ router.post("/create", async (req, res) => {
             password: bcrypt.hashSync(password, 13),
         });
 
+        let token = jwt.sign({id: newUser.id}, "i_am_secret", {expiresIn: 60 * 60 * 24});
+
         res.status(200).json({
             message: "User successfully saved",
-            user: newUser
+            user: newUser,
+            sessionToken: token
         })
     }   catch (err) {
             res.status(500).json({

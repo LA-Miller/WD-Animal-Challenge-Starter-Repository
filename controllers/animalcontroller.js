@@ -2,6 +2,11 @@ const express = require("express");
 const router = express.Router();
 const { Animal } = require("../models");
 
+// PRACTICE ROUTE  
+router.get("/practice", (req, res) => {
+    res.send("Hey! This is a practice route")
+})
+
 // POSTING ANIMAL ENTRY
 router.post("/create", async(req, res) => {
     const { name, legNumber, predator } = req.body.animal;
