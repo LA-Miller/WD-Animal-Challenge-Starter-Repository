@@ -14,7 +14,6 @@ app.use("/user", controllers.usercontroller);
 
 app.use(require("./middleware/validate-jwt"));
 app.use("/animal", controllers.animalcontroller);
-// app.use(require("./middleware/validate-jwt"));
 
 db.authenticate()
   .then(() => db.sync()) // => {force: true}

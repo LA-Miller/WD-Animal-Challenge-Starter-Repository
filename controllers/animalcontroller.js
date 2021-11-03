@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { Animal } = require("../models");
+const { Animal, User } = require("../models");
+// let validateJWT = require("../middleware/validate-jwt");
 
 // PRACTICE ROUTE  
 router.get("/practice", (req, res) => {
@@ -10,11 +11,13 @@ router.get("/practice", (req, res) => {
 // POSTING ANIMAL ENTRY
 router.post("/create", async(req, res) => {
     const { name, legNumber, predator } = req.body.animal;
+    const { id } = req.user;
 
     const animalEntry = {
         name,
         legNumber,
-        predator
+        predator,
+        userId: id
     }
     try {
         const newAnimal = await Animal.create(animalEntry);

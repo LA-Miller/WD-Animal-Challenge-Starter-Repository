@@ -1,7 +1,7 @@
-const {DataTypes} = require('sequelize');
+const {DataTypes} = require("sequelize");
 const db = require('../db');
 
-const Animal = db.define('animal', {
+const Animal = db.define("animal", {
   name: {
     type: DataTypes.STRING,
     allowNull: false
@@ -13,6 +13,9 @@ const Animal = db.define('animal', {
   predator: {
     type: DataTypes.BOOLEAN,
     allowNull: false
+  },
+  userId: {
+    type: DataTypes.INTEGER
   }
 });
 
